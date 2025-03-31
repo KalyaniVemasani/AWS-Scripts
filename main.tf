@@ -1,16 +1,13 @@
-variable "instances" {
-type = map
-default = {
-"web1" = "t2.micro"
-"web2" = "t3.micro"
-"web3" = "t2.small"
-}
+provider "aws" {
+region = "us-east-1"
+Unset
+Unset
 }
 resource "aws_instance" "web" {
-for_each = var.instances
+count = 3 # Creates 3 instances
 ami = "ami-071226ecf16aa7d96"
-instance_type = each.value
+instance_type = "t2.micro"
 tags = {
-Name = "${each.key}"
+Name = "Terraform-Instance-${count.index}"
 }
  }
